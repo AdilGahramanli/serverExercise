@@ -1,0 +1,66 @@
+Résumé de chatgpt
+
+Contexte et Objectifs
+L'objectif principal de cette itération est de vous familiariser avec la programmation asynchrone et parallèle. Ces concepts sont essentiels pour créer des applications capables de gérer plusieurs tâches simultanément, sans ralentir l'exécution globale. Par exemple, dans une application web, la programmation asynchrone permet de gérer de nombreuses requêtes simultanées sans bloquer les ressources.
+
+Approche
+Modalité : Travail en équipe de deux personnes, à réaliser en une journée.
+Technologies : Le projet peut être développé en Java ou en C#. Les deux langages permettent de mettre en œuvre la programmation asynchrone et parallèle.
+Étapes de Développement
+L'itération est divisée en plusieurs étapes progressives qui construisent un serveur de chat textuel multi-client. Le projet commence par un serveur simple, puis évolue vers une gestion plus complexe de la concurrence avec des techniques de programmation parallèle.
+
+1. Programme de Base
+But : Créer un serveur de chat textuel capable de gérer des connexions client et d'échanger des messages en temps réel.
+
+Le serveur : Il démarre, écoute sur un port spécifique, accepte les connexions, et interagit avec les clients en leur demandant un nom d’utilisateur. Il écoute ensuite les messages envoyés par chaque client.
+Le client : Il se connecte au serveur, envoie son nom, et peut ensuite envoyer des messages. Ces messages sont affichés par le serveur avec le nom du client émetteur.
+Concepts abordés :
+
+Création de sockets TCP pour gérer les connexions réseau.
+Interaction client-serveur sans framework externe, permettant de comprendre les bases des communications réseau.
+
+2. Multi-Clients
+But : Faire évoluer le serveur pour qu’il puisse gérer plusieurs clients simultanément.
+
+Approche : Lorsqu’un nouveau client se connecte, le serveur crée une tâche parallèle (thread ou tâche asynchrone) pour écouter ses messages en continu.
+Test : Lancer plusieurs clients simultanément pour vérifier que tous peuvent envoyer des messages sans problème.
+Concepts abordés :
+
+Gestion des tâches parallèles pour permettre à plusieurs clients d’interagir avec le serveur simultanément.
+3. Broadcast (Diffusion)
+But : Faire en sorte que les messages envoyés par un client soient rediffusés à tous les autres clients connectés.
+
+Serveur : Chaque fois qu’un message est reçu d’un client, le serveur le diffuse à tous les autres clients.
+Client : Il doit non seulement envoyer des messages, mais aussi écouter en continu les messages provenant du serveur pour les afficher en temps réel.
+Concepts abordés :
+
+Diffusion de messages à l’ensemble des clients connectés.
+Concurrence pour gérer les communications dans les deux sens (envoi et réception simultanés).
+4. Stress Test du Serveur
+But : Simuler un stress du serveur en créant plusieurs clients automatisés qui envoient des messages à intervalle régulier.
+
+Simulation : Créer un nouveau projet où plusieurs instances de clients sont lancées en parallèle, chacune envoyant des messages programmés toutes les 200 ms.
+Objectif : Observer le comportement du serveur sous une charge importante et identifier les éventuels problèmes de performance ou de concurrence.
+Concepts abordés :
+
+Simuler une charge élevée sur le serveur pour observer comment il gère les accès concurrents.
+5. Gestion des Accès Concurrents
+But : Mettre en évidence les problèmes liés à la gestion des accès concurrents à une ressource partagée (un compteur global dans cet exemple).
+
+Exercice : À chaque message reçu, le serveur incrémente un compteur global avec un délai de 500 ms pour accentuer les problèmes de concurrence.
+Observation : Comparer le nombre de messages envoyés par les clients avec la valeur du compteur global. Des désynchronisations dues à des accès concurrents incorrects devraient être observées.
+Correction : Discuter des résultats et implémenter des solutions pour gérer correctement les accès concurrents (par exemple, avec des locks ou des mécanismes de synchronisation).
+Concepts abordés :
+
+Problèmes d’accès concurrent et conditions de course.
+Utilisation de techniques de synchronisation pour gérer les ressources partagées (locks en Java ou C#).
+Livrables
+Code Source : Les différentes versions des programmes devront être mises à disposition sur GitHub, permettant de suivre l’évolution du projet à travers les différentes étapes.
+Conclusion
+Ce projet vous permet de :
+
+Comprendre les bases de la programmation réseau avec des sockets.
+Apprendre à gérer plusieurs clients simultanément avec des tâches parallèles.
+Maîtriser les concepts d'asynchronisme et de concurrence dans un contexte réseau.
+Identifier les problèmes potentiels liés aux accès concurrents et les corriger avec des solutions adaptées.
+En résumé, l'objectif est d'acquérir une compréhension approfondie des principes sous-jacents à la programmation asynchrone et parallèle, tout en abordant de manière pratique la gestion de la concurrence dans un serveur multi-client.
