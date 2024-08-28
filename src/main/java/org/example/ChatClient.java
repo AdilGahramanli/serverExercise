@@ -8,6 +8,7 @@ public class ChatClient {
     private PrintWriter out;
     private BufferedReader in;
     private BufferedReader userInput;
+    private String clientName;
 
     public ChatClient(String serverAddress, int port) {
         try {
@@ -19,16 +20,16 @@ public class ChatClient {
 
             // Lire le message initial du serveur (demande du nom)
             System.out.println(in.readLine());
-            String name = userInput.readLine();
-            out.println(name); // Envoyer le nom au serveur
+            clientName = userInput.readLine();
+            out.println(clientName); // Envoyer le nom au serveur
 
-            // Démarrer un thread pour écouter les messages du serveur
-            new Thread(new ServerListener(in)).start();
+            // Démarrer un thread pour écouter les messages du serveur, y compris l'historique
+            new Thread(new ServerListener(in, clientName)).start();
 
             // Envoyer les messages du client au serveur
             String message;
             while ((message = userInput.readLine()) != null) {
-                out.println(message);
+                out.println(message); // Envoyer le message au serveur
                 if ("bye".equalsIgnoreCase(message)) {
                     break;
                 }
@@ -54,9 +55,11 @@ public class ChatClient {
     // Classe interne pour écouter les messages du serveur
     private static class ServerListener implements Runnable {
         private BufferedReader in;
+        private String clientName;
 
-        public ServerListener(BufferedReader in) {
+        public ServerListener(BufferedReader in, String clientName) {
             this.in = in;
+            this.clientName = clientName;
         }
 
         @Override
@@ -64,7 +67,11 @@ public class ChatClient {
             try {
                 String serverMessage;
                 while ((serverMessage = in.readLine()) != null) {
-                    System.out.println(serverMessage); // Afficher le message du serveur
+                    // Afficher tous les messages reçus du serveur
+                    // La vérification ici est modifiée pour gérer correctement l'historique
+                    if (!serverMessage.startsWith(clientName + ":")) {
+                        System.out.println(serverMessage); // Afficher le message s'il ne vient pas du client lui-même
+                    }
                 }
             } catch (IOException e) {
                 System.out.println("Connexion au serveur perdue : " + e.getMessage());
